@@ -1,0 +1,105 @@
+[select *
+   from ord
+  where ordnum = '01ALLOC2EMP1'];
+--------------------------------------------------
+[select *
+   from ord
+  where ordnum = '01ALLOC2EMP1'
+    AND wh_id = 'WMD1'] catch(@?)
+|
+publish data
+ where result = @?
+   and nombre = @!
+-------------------------------------------------
+
+[select *
+   from ord
+  where ordnum = '01ALLOC2EMP1'
+    and 1 = 0] catch(@?)
+|
+publish data
+ where result = 'holaaa'
+
+------------------------------------------------
+
+[select *
+   from ord
+  where ordnum = '01ALLOC2EMP1'
+    and 1 = 0] catch(@?)
+|
+if(@? != 0){
+	publish data
+	where x = 'error'
+} else {
+
+
+}
+--------------------------------------------------------
+
+publish data
+ where orderbyClause = 'ordnum, client_id'
+|
+[select *
+   from ord
+  order by @orderbyClause:raw]
+
+--------------------------------------------------------
+[select ordnum as f
+   from ord
+  where wh_id = 'WMD1'
+    and 1 = 1] catch(@?)
+|
+if (@? != 0)
+{
+    publish data
+     where x = 'ERROR'
+}
+else
+{
+    publish data
+     where x = @f
+};
+--------------------------------------------------------
+publish data
+ where adddte = '20160823010000'
+|
+[select *
+   from ord
+  where adddte = @adddte:date]
+---------------------------------------------------
+
+publish data
+ where ordnum = 'TESTORD01'
+////	01ALLOC2EMP1
+   and wh_id = 'WMD1'
+|
+if (@ordnum#onstack)
+{
+    [select *
+       from ord
+      where ordnum = @ordnum
+        and wh_id = @wh_id]
+}
+else
+{
+    [select *
+       from prtmst]
+}
+------------------------------------------------------
+
+[select ord.ordnum,
+        ord.client_id,
+        ord_line.prtnum,
+        ord_line.ordqty
+   from ord,
+        ord_line
+  where ord.ordnum = ord_line.ordnum
+    and ord.client_id = ord_line.client_id
+    and ord.wh_id = ord_line.wh_id
+    and ord.ordnum = '01ALLOC2EMP1'
+    and ord.wh_id = 'WMD1']
+
+
+
+
+
