@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="varListPart" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ddc5117f-85bd-4ceb-a367-6413c043fdcf">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="MOCA_REPORT_DATE" class="com.redprairie.moca.jrds.JRMocaConnection" isForPrompting="false">
+		<property name="MOCA" value="true"/>
+		<defaultValueExpression><![CDATA[DateFormat.getDateInstance(DateFormat.SHORT).format(new Date())]]></defaultValueExpression>
+	</parameter>
+	<parameter name="MOCA_REPORT_TZ" class="com.redprairie.moca.jrds.JRMocaConnection" isForPrompting="false">
+		<property name="MOCA" value="true"/>
+		<defaultValueExpression><![CDATA[new java.text.SimpleDateFormat("z").format(new Date())]]></defaultValueExpression>
+	</parameter>
+	<parameter name="MOCA_REPORT_DATE_FMT" class="com.redprairie.moca.jrds.JRMocaConnection" isForPrompting="false">
+		<property name="MOCA" value="true"/>
+		<defaultValueExpression><![CDATA["MM/dd/yyyy"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="MOCA_REPORT_LOCALE" class="com.redprairie.moca.jrds.JRMocaConnection" isForPrompting="false">
+		<property name="MOCA" value="true"/>
+		<defaultValueExpression><![CDATA["US_ENGLISH"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="MOCA_REPORT_CONNECTION" class="com.redprairie.moca.jrds.JRMocaConnection" isForPrompting="false">
+		<property name="MOCA" value="TRUE"/>
+		<defaultValueExpression><![CDATA[new com.redprairie.moca.jrds.JRMocaConnection("http://localhost:4600/service", "super", "super")]]></defaultValueExpression>
+	</parameter>
+	<parameter name="MOCA_REPORT_TIME" class="com.redprairie.moca.jrds.JRMocaConnection" isForPrompting="false">
+		<property name="MOCA" value="true"/>
+		<defaultValueExpression><![CDATA[DateFormat.getTimeInstance(DateFormat.SHORT).format(new Date())]]></defaultValueExpression>
+	</parameter>
+	<parameter name="MOCA_REPORT_TIME_FMT" class="com.redprairie.moca.jrds.JRMocaConnection" isForPrompting="false">
+		<property name="MOCA" value="true"/>
+		<defaultValueExpression><![CDATA["HH:mm:ss"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="wh_id_tmpl" class="java.lang.String">
+		<property name="prompt" value="^wh_id_tmpl^"/>
+		<parameterDescription><![CDATA[]]></parameterDescription>
+	</parameter>
+	<parameter name="prtnum" class="java.lang.String">
+		<property name="prompt" value="^prtnum^"/>
+	</parameter>
+	<queryString language="MOCA">
+		<![CDATA[list parts
+ where rownum < 11
+and wh_id_tmpl = @wh_id_tmpl
+and @+prtnum]]>
+	</queryString>
+	<field name="prtnum" class="java.lang.String"/>
+	<field name="prt_client_id" class="java.lang.String"/>
+	<field name="wh_id_tmpl" class="java.lang.String"/>
+	<field name="comcod" class="java.lang.String"/>
+	<field name="subcfg" class="java.lang.String"/>
+	<field name="scfpos" class="java.lang.Integer"/>
+	<field name="dtlcfg" class="java.lang.String"/>
+	<field name="dcfpos" class="java.lang.Integer"/>
+	<field name="typcod" class="java.lang.String"/>
+	<field name="prtfam" class="java.lang.String"/>
+	<field name="age_pflnam" class="java.lang.String"/>
+	<field name="lodlvl" class="java.lang.String"/>
+	<field name="orgflg" class="java.lang.Integer"/>
+	<field name="revflg" class="java.lang.Integer"/>
+	<field name="lotflg" class="java.lang.Integer"/>
+	<field name="untcst" class="java.lang.Double"/>
+	<field name="reoqty" class="java.lang.Integer"/>
+	<field name="reopnt" class="java.lang.Integer"/>
+	<field name="stkuom" class="java.lang.String"/>
+	<field name="abccod" class="java.lang.String"/>
+	<field name="fifwin" class="java.lang.Integer"/>
+	<field name="timcod" class="java.lang.String"/>
+	<field name="velzon" class="java.lang.String"/>
+	<field name="rcvsts" class="java.lang.String"/>
+	<field name="rsvuom" class="java.lang.String"/>
+	<field name="rcvflg" class="java.lang.Integer"/>
+	<field name="prdflg" class="java.lang.Integer"/>
+	<field name="ltlcls" class="java.lang.String"/>
+	<field name="wip_prtflg" class="java.lang.Integer"/>
+	<field name="dtcflg" class="java.lang.Integer"/>
+	<field name="cnzflg" class="java.lang.Integer"/>
+	<field name="cnzamt" class="java.lang.Double"/>
+	<field name="catch_cod" class="java.lang.String"/>
+	<field name="avg_catch" class="java.lang.Integer"/>
+	<field name="catch_unttyp" class="java.lang.String"/>
+	<field name="catch_untwgt" class="java.lang.Double"/>
+	<field name="catch_untcst" class="java.lang.Double"/>
+	<field name="min_catch_qty" class="java.lang.Double"/>
+	<field name="max_catch_qty" class="java.lang.Double"/>
+	<field name="stccod" class="java.lang.String"/>
+	<field name="parcel_flg" class="java.lang.Integer"/>
+	<field name="hazmat_flg" class="java.lang.Integer"/>
+	<field name="insflg" class="java.lang.Integer"/>
+	<field name="nstcls" class="java.lang.String"/>
+	<field name="ser_typ" class="java.lang.String"/>
+	<field name="ser_lvl" class="java.lang.String"/>
+	<field name="prt_disp" class="java.lang.String"/>
+	<field name="prt_disptn" class="java.lang.String"/>
+	<field name="lot_fmt_id" class="java.lang.String"/>
+	<field name="wgtcod" class="java.lang.String"/>
+	<field name="lod_tag_encode" class="java.lang.String"/>
+	<field name="sub_tag_encode" class="java.lang.String"/>
+	<field name="co_prefix_len" class="java.lang.Integer"/>
+	<field name="dept_cod" class="java.lang.String"/>
+	<field name="time_to_warn_for_exp" class="java.lang.Integer"/>
+	<field name="prtadjflg" class="java.lang.Integer"/>
+	<field name="cntbck_ena_flg" class="java.lang.Integer"/>
+	<field name="cnt_thr_cst" class="java.lang.Double"/>
+	<field name="cnt_thr_unit" class="java.lang.Integer"/>
+	<field name="moddte" class="java.util.Date"/>
+	<field name="mod_usr_id" class="java.lang.String"/>
+	<field name="crncy_code" class="java.lang.String"/>
+	<field name="u_version" class="java.lang.Integer"/>
+	<field name="ins_dt" class="java.util.Date"/>
+	<field name="last_upd_dt" class="java.util.Date"/>
+	<field name="ins_user_id" class="java.lang.String"/>
+	<field name="last_upd_user_id" class="java.lang.String"/>
+	<field name="prtstyle" class="java.lang.String"/>
+	<field name="prtfit" class="java.lang.String"/>
+	<field name="prtcolor" class="java.lang.String"/>
+	<field name="prtsize" class="java.lang.String"/>
+	<field name="unt_ins_val" class="java.lang.Double"/>
+	<field name="rel_val" class="java.lang.Double"/>
+	<field name="rel_val_unt_typ" class="java.lang.String"/>
+	<field name="pck_steal_flg" class="java.lang.Integer"/>
+	<field name="box_pck_flg" class="java.lang.Integer"/>
+	<field name="bto_subst_prtnum" class="java.lang.String"/>
+	<field name="bto_obso_flg" class="java.lang.Integer"/>
+	<field name="dspuom" class="java.lang.String"/>
+	<field name="rptuom" class="java.lang.String"/>
+	<field name="htsnum" class="java.lang.String"/>
+	<field name="schedbnum" class="java.lang.String"/>
+	<field name="ignore_con_flg" class="java.lang.Integer"/>
+	<field name="prc_for_rps_flg" class="java.lang.Integer"/>
+	<field name="abs_ordinv_win" class="java.lang.Integer"/>
+	<field name="abs_ordinv_code" class="java.lang.String"/>
+	<field name="thresh_pck_var" class="java.lang.Double"/>
+	<field name="dte_win_typ" class="java.lang.String"/>
+	<field name="dte_code" class="java.lang.String"/>
+	<field name="attr_str1" class="java.lang.String"/>
+	<field name="attr_str2" class="java.lang.String"/>
+	<field name="attr_str3" class="java.lang.String"/>
+	<field name="attr_str4" class="java.lang.String"/>
+	<field name="attr_str5" class="java.lang.String"/>
+	<field name="attr_str6" class="java.lang.String"/>
+	<field name="attr_str7" class="java.lang.String"/>
+	<field name="attr_str8" class="java.lang.String"/>
+	<field name="attr_str9" class="java.lang.String"/>
+	<field name="attr_str10" class="java.lang.String"/>
+	<field name="attr_int1" class="java.lang.String"/>
+	<field name="attr_int2" class="java.lang.String"/>
+	<field name="attr_int3" class="java.lang.String"/>
+	<field name="attr_int4" class="java.lang.String"/>
+	<field name="attr_int5" class="java.lang.String"/>
+	<field name="attr_flt1" class="java.lang.String"/>
+	<field name="attr_flt2" class="java.lang.String"/>
+	<field name="attr_flt3" class="java.lang.String"/>
+	<field name="attr_dte1" class="java.lang.String"/>
+	<field name="attr_dte2" class="java.lang.String"/>
+	<field name="cstms_itm_typ" class="java.lang.String"/>
+	<field name="cstms_crncy" class="java.lang.String"/>
+	<field name="dflt_orgcod" class="java.lang.String"/>
+	<field name="cstms_vat_cod" class="java.lang.String"/>
+	<field name="dty_stmp_trk_flg" class="java.lang.Integer"/>
+	<field name="cstms_cst" class="java.lang.Double"/>
+	<field name="cstms_cmmdty_cod" class="java.lang.String"/>
+	<field name="sup_lot_flg" class="java.lang.Integer"/>
+	<field name="dsp_prtnum" class="java.lang.String"/>
+	<field name="alt_prt_typ" class="java.lang.String"/>
+	<field name="attr_str11" class="java.lang.String"/>
+	<field name="attr_str12" class="java.lang.String"/>
+	<field name="attr_str13" class="java.lang.String"/>
+	<field name="attr_str14" class="java.lang.String"/>
+	<field name="attr_str15" class="java.lang.String"/>
+	<field name="attr_str16" class="java.lang.String"/>
+	<field name="attr_str17" class="java.lang.String"/>
+	<field name="attr_str18" class="java.lang.String"/>
+	<field name="velzon_recalc_flg" class="java.lang.Integer"/>
+	<field name="ordinv" class="java.lang.String"/>
+	<field name="pakflg" class="java.lang.Integer"/>
+	<field name="shelf_life" class="java.lang.Integer"/>
+	<field name="shelf_timecode" class="java.lang.String"/>
+	<field name="shp_res_lot" class="java.lang.Integer"/>
+	<field name="prthrcy" class="java.lang.String"/>
+	<field name="allow_xdktyp_rpl_flg" class="java.lang.Integer"/>
+	<field name="prt_class_name" class="java.lang.String"/>
+	<field name="conveyable_flg" class="java.lang.Integer"/>
+	<field name="assorted_flg" class="java.lang.Integer"/>
+	<field name="bu_id" class="java.lang.String"/>
+	<field name="wh_id" class="java.lang.String"/>
+	<field name="short_dsc" class="java.lang.String"/>
+	<field name="lngdsc" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="261" y="34" width="100" height="20" uuid="4ed814c3-94ab-4b56-a493-05eb15ca3036"/>
+				<textElement>
+					<font fontName="Yu Gothic UI Semilight" size="13"/>
+				</textElement>
+				<text><![CDATA[Productos]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement x="128" y="0" width="100" height="20" uuid="9621686a-f2a8-4633-a399-af45259a0966"/>
+				<text><![CDATA[cliente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="243" y="0" width="100" height="20" uuid="17e5f964-c0d2-4d74-83b1-674fe5015954"/>
+				<text><![CDATA[almacen]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="361" y="0" width="100" height="20" uuid="37269847-9617-4577-947a-090c2d059377"/>
+				<text><![CDATA[familia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="472" y="0" width="100" height="20" uuid="60298c4e-2104-49e4-ad17-07dc2d4543a2"/>
+				<text><![CDATA[estado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="20" uuid="d5531c9a-268a-4cac-8eec-05627a5452c7"/>
+				<text><![CDATA[Producto]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="128" y="0" width="100" height="20" uuid="26f052c0-e530-483f-85e0-13ca26f682d6"/>
+				<textFieldExpression><![CDATA[$F{prt_client_id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="243" y="0" width="100" height="20" uuid="8ff95d23-ce29-45b1-91c9-4870917291a9"/>
+				<textFieldExpression><![CDATA[$F{wh_id_tmpl}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="361" y="0" width="100" height="20" uuid="f9e10309-5490-4e6e-8ce9-9792887b6eef"/>
+				<textFieldExpression><![CDATA[$F{prtfam}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="472" y="0" width="100" height="20" uuid="cf2c541f-d56b-4204-930a-63879fdb1f9d"/>
+				<textFieldExpression><![CDATA[$F{rcvsts}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="100" height="20" uuid="8ffd84ca-b3c0-425b-b712-5d2c452a12a4"/>
+				<textFieldExpression><![CDATA[$F{prtnum}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="50">
+			<image>
+				<reportElement x="511" y="10" width="46" height="40" uuid="36dad935-e499-42a0-a8f9-73dee1152b21"/>
+				<imageExpression><![CDATA["/java-logo-vert-blk.png"]]></imageExpression>
+			</image>
+		</band>
+	</pageFooter>
+</jasperReport>

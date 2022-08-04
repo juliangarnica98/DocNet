@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="varListOrders" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3712bd1d-a8d5-4882-9d05-45a5a088eb49">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="MOCA_REPORT_CONNECTION" class="com.redprairie.moca.jrds.JRMocaConnection" isForPrompting="false">
+		<property name="MOCA" value="TRUE"/>
+		<defaultValueExpression><![CDATA[new com.redprairie.moca.jrds.JRMocaConnection("http://localhost:4600/service", "super", "super")]]></defaultValueExpression>
+	</parameter>
+	<parameter name="MOCA_REPORT_LOCALE" class="com.redprairie.moca.jrds.JRMocaConnection" isForPrompting="false">
+		<property name="MOCA" value="true"/>
+		<defaultValueExpression><![CDATA["US_ENGLISH"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="MOCA_REPORT_DATE_FMT" class="com.redprairie.moca.jrds.JRMocaConnection" isForPrompting="false">
+		<property name="MOCA" value="true"/>
+		<defaultValueExpression><![CDATA["MM/dd/yyyy"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="MOCA_REPORT_DATE" class="com.redprairie.moca.jrds.JRMocaConnection" isForPrompting="false">
+		<property name="MOCA" value="true"/>
+		<defaultValueExpression><![CDATA[DateFormat.getDateInstance(DateFormat.SHORT).format(new Date())]]></defaultValueExpression>
+	</parameter>
+	<parameter name="MOCA_REPORT_TZ" class="com.redprairie.moca.jrds.JRMocaConnection" isForPrompting="false">
+		<property name="MOCA" value="true"/>
+		<defaultValueExpression><![CDATA[new java.text.SimpleDateFormat("z").format(new Date())]]></defaultValueExpression>
+	</parameter>
+	<parameter name="MOCA_REPORT_TIME_FMT" class="com.redprairie.moca.jrds.JRMocaConnection" isForPrompting="false">
+		<property name="MOCA" value="true"/>
+		<defaultValueExpression><![CDATA["HH:mm:ss"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="MOCA_REPORT_TIME" class="com.redprairie.moca.jrds.JRMocaConnection" isForPrompting="false">
+		<property name="MOCA" value="true"/>
+		<defaultValueExpression><![CDATA[DateFormat.getTimeInstance(DateFormat.SHORT).format(new Date())]]></defaultValueExpression>
+	</parameter>
+	<parameter name="ordtyp" class="java.lang.String">
+		<property name="prompt" value="^ordtyp^"/>
+	</parameter>
+	<parameter name="ordnum" class="java.lang.String">
+		<property name="prompt" value="^ordnum^"/>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Users\\Julian Garnica\\OneDrive - Netlogistik\\Documentos\\reportes\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString language="MOCA">
+		<![CDATA[list orders
+where ordtyp = @ordtyp
+and @+ordnum]]>
+	</queryString>
+	<field name="client_id" class="java.lang.String"/>
+	<field name="ordnum" class="java.lang.String"/>
+	<field name="wh_id" class="java.lang.String"/>
+	<field name="btcust" class="java.lang.String"/>
+	<field name="stcust" class="java.lang.String"/>
+	<field name="rtcust" class="java.lang.String"/>
+	<field name="bt_adr_id" class="java.lang.String"/>
+	<field name="st_adr_id" class="java.lang.String"/>
+	<field name="rt_adr_id" class="java.lang.String"/>
+	<field name="ordtyp" class="java.lang.String"/>
+	<field name="entdte" class="java.util.Date"/>
+	<field name="adddte" class="java.util.Date"/>
+	<field name="cpotyp" class="java.lang.String"/>
+	<field name="cponum" class="java.lang.String"/>
+	<field name="cpodte" class="java.util.Date"/>
+	<field name="paytrm" class="java.lang.String"/>
+	<field name="carflg" class="java.lang.Integer"/>
+	<field name="shipby" class="java.lang.String"/>
+	<field name="rrlflg" class="java.lang.Integer"/>
+	<field name="wave_flg" class="java.lang.Integer"/>
+	<field name="requir_tms_flg" class="java.lang.Integer"/>
+	<field name="rmanum" class="java.lang.String"/>
+	<field name="super_ord_flg" class="java.lang.Integer"/>
+	<field name="super_ordnum" class="java.lang.String"/>
+	<field name="ord_frtrte" class="java.lang.Double"/>
+	<field name="bco_flg" class="java.lang.Integer"/>
+	<field name="sig_req_flg" class="java.lang.Integer"/>
+	<field name="bill_freight_flg" class="java.lang.Integer"/>
+	<field name="cod_payment_type" class="java.lang.String"/>
+	<field name="payment_type" class="java.lang.String"/>
+	<field name="sfcust" class="java.lang.String"/>
+	<field name="sf_adr_id" class="java.lang.String"/>
+	<field name="csr_nam" class="java.lang.String"/>
+	<field name="csr_phnnum" class="java.lang.String"/>
+	<field name="csr_email_adr" class="java.lang.String"/>
+	<field name="bus_grp" class="java.lang.String"/>
+	<field name="host_appt_num" class="java.lang.String"/>
+	<field name="dlv_contact" class="java.lang.String"/>
+	<field name="ord_dir" class="java.lang.String"/>
+	<field name="frt_allow" class="java.lang.Double"/>
+	<field name="ord_spl_cod" class="java.lang.String"/>
+	<field name="moddte" class="java.util.Date"/>
+	<field name="mod_usr_id" class="java.lang.String"/>
+	<field name="customs_clr_flg" class="java.lang.Integer"/>
+	<field name="brcust" class="java.lang.String"/>
+	<field name="br_adr_id" class="java.lang.String"/>
+	<field name="srv_type" class="java.lang.String"/>
+	<field name="cod_ind_type" class="java.lang.Integer"/>
+	<field name="crncy_code" class="java.lang.String"/>
+	<field name="bto_seqnum" class="java.lang.String"/>
+	<field name="slot" class="java.lang.String"/>
+	<field name="exp_adr_id" class="java.lang.String"/>
+	<field name="exp_cust" class="java.lang.String"/>
+	<field name="imp_adr_id" class="java.lang.String"/>
+	<field name="imp_cust" class="java.lang.String"/>
+	<field name="rtetransflg" class="java.lang.Integer"/>
+	<field name="relpartiescod" class="java.lang.String"/>
+	<field name="duty_payment_type" class="java.lang.String"/>
+	<field name="duty_payment_acct" class="java.lang.String"/>
+	<field name="ret_adr_id" class="java.lang.String"/>
+	<field name="ret_cust" class="java.lang.String"/>
+	<field name="contract_nam" class="java.lang.String"/>
+	<field name="template_flg" class="java.lang.Integer"/>
+	<field name="template_ref" class="java.lang.String"/>
+	<field name="rush_flg" class="java.lang.Integer"/>
+	<field name="deptno" class="java.lang.String"/>
+	<field name="dest_num" class="java.lang.String"/>
+	<field name="cstms_dtycust" class="java.lang.String"/>
+	<field name="excise_dtycust" class="java.lang.String"/>
+	<field name="cstms_ordtyp" class="java.lang.String"/>
+	<field name="cstms_ord_stat" class="java.lang.String"/>
+	<field name="cstms_stat_notes" class="java.lang.String"/>
+	<field name="cstms_addl_info" class="java.lang.String"/>
+	<field name="plan_slot_seq" class="java.lang.String"/>
+	<field name="ext_order_ref" class="java.lang.String"/>
+	<field name="dlvnum" class="java.lang.String"/>
+	<field name="dlvseq" class="java.lang.Integer"/>
+	<field name="order_cancelled" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="52" splitType="Stretch">
+			<staticText>
+				<reportElement x="142" y="17" width="122" height="35" uuid="ddc98467-0519-4d8a-8478-09a51e64c217"/>
+				<textElement>
+					<font fontName="Arial Black" size="22"/>
+				</textElement>
+				<text><![CDATA[ORDENES]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="42" splitType="Stretch">
+			<staticText>
+				<reportElement x="31" y="2" width="100" height="20" uuid="c4953e5a-684d-42e6-a3b1-a1213bd89d37"/>
+				<text><![CDATA[Almacen]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="142" y="2" width="100" height="20" uuid="cd398105-e472-4095-9615-e9e3e477dbf2"/>
+				<text><![CDATA[Orden]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="281" y="2" width="100" height="20" uuid="c912961f-83eb-45b4-9940-d13ac2c608fa"/>
+				<text><![CDATA[Cliente]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="399" y="2" width="100" height="20" uuid="7121a847-c120-4623-91a3-45e0d6fce674"/>
+				<textFieldExpression><![CDATA[$F{client_id}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="103" splitType="Stretch">
+			<textField>
+				<reportElement x="142" y="12" width="100" height="20" uuid="c906de2a-89d6-4c3d-b921-73c64fe6199e"/>
+				<textFieldExpression><![CDATA[$F{ordnum}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="31" y="12" width="100" height="20" uuid="48e33461-8a88-4f46-8f25-74a9135c5812"/>
+				<textFieldExpression><![CDATA[$F{wh_id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="399" y="12" width="100" height="20" uuid="d6410a95-c9a7-4214-aa14-9746e7aaec39"/>
+				<textFieldExpression><![CDATA[$F{ordtyp}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="281" y="12" width="100" height="20" uuid="8fd5953c-5746-4c7a-980e-4df2f428a91a"/>
+				<text><![CDATA[Tipo orden]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>
