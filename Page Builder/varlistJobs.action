@@ -1,0 +1,16 @@
+<action>
+    <id>varlistJobs</id>
+    <name>List MOCA Jobs</name>
+    <description>List all MOCA jobs.</description>
+    <type>LIST</type>
+    <ws>
+        <method>GET</method>
+        <href>/jobs</href>
+    </ws>
+    <impl>
+        <command>list jobs</command>
+    </impl>
+    <auth>
+        <opt>optOpen</opt>
+    </auth>
+</action>

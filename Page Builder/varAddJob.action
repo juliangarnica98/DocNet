@@ -1,0 +1,16 @@
+<action>
+    <id>varAddJob</id>
+    <name>Add MOCA Job</name>
+    <description>Add a new MOCA job.</description>
+    <type>ADD</type>
+    <ws>
+        <method>POST</method>
+        <href>/jobs</href>
+    </ws>
+    <impl>
+        <command>add job</command>
+    </impl>
+    <auth>
+        <opt>optOpen</opt>
+    </auth>
+</action>
