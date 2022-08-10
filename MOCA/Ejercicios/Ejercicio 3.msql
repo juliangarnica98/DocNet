@@ -1,0 +1,125 @@
+list tables with column
+ where column = 'dispatch_dte';
+list tables with column
+ where column = 'client_id';
+list primary key for table
+ where table = 'prtdsc';
+
+/*COLVAL
+   LOCALE_ID
+   COLNAM*/
+[select *
+   from prtdsc];
+
+/*Tabla master*/
+/*prtnum
+   prt_client_id
+   wh_id_tmpl
+   colval*/
+[select top 100 concat(prtnum, concat(' | ', concat(prt_client_id, concat(' | ', wh_id_tmpl)))) as 'resultado'
+   from prtmst]
+[select top 100 prtnum || '|' || prt_client_id || '|' || wh_id_tmpl as 'resultado'
+   from prtmst
+  inner
+   join prtdsc
+     on prtdsc.colval = prtnum || '|' || prt_client_id || '|' || wh_id_tmpl];
+[select prtdsc.lngdsc,
+        prtmst.prtnum
+   from prtmst
+  inner
+   join prtdsc
+     on prtdsc.colval = prtnum || '|' || prt_client_id || '|' || wh_id_tmpl
+  where locale_id = @@locale_id]
+|
+[select locale_id,
+        lngdsc
+   from prtdsc
+  where colval = @resultado]
+|
+publish data
+ where resultado = @resultado
+   and locale_id = @locale_id
+   and lngdsc = @lngdsc
+[select top 10 prtnum,
+        prt_client_id,
+        wh_id_tmpl
+   from prtmst] >> res
+|
+convert column results to string
+ where colnam = 'result'
+   and separator = ' | '
+|
+publish data
+ where result = @result_string;
+[select top 10 *
+   from prtdsc]
+/*Tabla descripcion*/
+/*Formato |prtnum|prt_client_id|wh_id_tmp*/;
+[select top 10 *
+   from ord_line];
+[select ord.ordnum,
+        ord_line.prtnum,
+        ord_line.ordlin,
+        ord_line.shpqty,
+        trlr.dispatch_dte,
+        trlr.trlr_num,
+        prtdsc.lngdsc,
+        case when ord_line.shpqty > 5 then 'UP'
+             else 'DOWN'
+        end as cantidad
+   from ord
+  inner
+   join ord_line
+     on ord_line.ordnum = ord.ordnum
+    and ord_line.wh_id = ord.wh_id
+    and ord_line.client_id = ord.client_id
+  inner
+   join shipment_line
+     on ord_line.ordnum = shipment_line.ordnum
+    and ord_line.ordlin = shipment_line.ordlin
+    and ord_line.ordsln = shipment_line.ordsln
+    and ord_line.wh_id = shipment_line.wh_id
+    and ord_line.client_id = shipment_line.client_id
+  inner
+   join shipment
+     on shipment.ship_id = shipment_line.ship_id
+    and shipment.wh_id = shipment_line.wh_id
+  inner
+   join stop
+     on stop.moddte = shipment_line.moddte
+    and stop.mod_usr_id = shipment_line.mod_usr_id
+  inner
+   join car_move
+     on car_move.car_move_id = stop.car_move_id
+  inner
+   join trlr
+     on trlr.trlr_id = car_move.trlr_id
+  inner
+   join prtmst
+     on prtmst.prtnum = ord_line.prtnum
+  inner
+   join prtdsc
+     on prtdsc.colval = ord_line.prtnum || '|' || ord.client_id || '|' || ord.wh_id
+  where locale_id = @@locale_id
+  group by ord.ordnum,
+        ord_line.prtnum,
+        ord_line.ordlin,
+        ord_line.shpqty,
+        trlr.dispatch_dte,
+        trlr.trlr_num,
+        prtdsc.lngdsc]
+/*Tablas relacionadas 
+   ord 
+   ord_line
+ */
+/*Columnas relacionadas
+   ordnum
+   ord
+   ord_line
+   prtnum
+   ord_line
+   shpqty
+   ord_line
+   dispatch_dte
+   trl
+ */

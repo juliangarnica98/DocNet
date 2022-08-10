@@ -1,0 +1,159 @@
+
+
+1
+============================================================
+publish data
+ where fila = 10
+|
+[select top 10 row_number() OVER(order by sum(untqty) DESC) as item,
+        prtnum,
+        sum(untqty) as inventario
+   from invdtl
+  group by prtnum]
+|
+if (@item = @fila)
+{
+    publish data
+     where prtnum = @prtnum
+       and inventario = @inventario
+       and resultado = ' El producto con menos unidades es ' || @prtnum || ' con ' || @inventario || ' unidades'
+}
+else
+{
+    publish data
+     where prtnum = @prtnum
+       and inventario = @inventario
+};
+2 ============================================================
+publish data
+ where fecha1 = '2004-05-20T09:02:15'
+   and fecha2 = '2015-04-01T12:33:07'
+|
+[select rcvlin.trknum,
+        rcvlin.invnum,
+        sum(rcvlin.expqty) as 'unidades',
+        trlr.dispatch_dte as 'despacho'
+   from trlr
+  inner
+   join rcvtrk
+     on rcvtrk.trlr_id = trlr.trlr_id
+  inner
+   join rcvinv
+     on rcvtrk.trknum = rcvinv.trknum
+    and rcvtrk.wh_id = rcvinv.wh_id
+  inner
+   join rcvlin
+     on rcvinv.trknum = rcvlin.trknum
+    and rcvinv.supnum = rcvlin.supnum
+    and rcvinv.invnum = rcvlin.invnum
+    and rcvinv.wh_id = rcvlin.wh_id
+    and rcvinv.client_id = rcvlin.client_id
+  where trlr.trlr_stat = 'D'
+    and dispatch_dte between @fecha1
+    and @fecha2
+  group by rcvlin.trknum,
+        rcvlin.invnum,
+        trlr.dispatch_dte
+ having sum(rcvlin.expqty) > 100
+  order by Unidades DESC]
+|
+[select prtnum
+   from rcvlin
+  where trknum = @trknum
+    and invnum = @invnum] >> res
+|
+convert column results to string
+ where colnam = 'prtnum'
+   and separator = ' | '
+|
+publish data
+ where trknum = @trknum
+   and invnum = @invnum
+   and unidades = @unidades
+   and prtnum = @result_string
+   and dispatch_date = @despacho;
+3 ============================================================
+[select ord.ordnum,
+        ord_line.prtnum,
+        ord_line.ordlin,
+        ord_line.shpqty,
+        trlr.dispatch_dte,
+        trlr.trlr_num,
+        prtdsc.lngdsc
+   from ord
+  inner
+   join ord_line
+     on ord_line.ordnum = ord.ordnum
+    and ord_line.wh_id = ord.wh_id
+    and ord_line.client_id = ord.client_id
+  inner
+   join shipment_line
+     on ord_line.ordnum = shipment_line.ordnum
+    and ord_line.ordlin = shipment_line.ordlin
+    and ord_line.ordsln = shipment_line.ordsln
+    and ord_line.wh_id = shipment_line.wh_id
+    and ord_line.client_id = shipment_line.client_id
+  inner
+   join shipment
+     on shipment.ship_id = shipment_line.ship_id
+    and shipment.wh_id = shipment_line.wh_id
+  inner
+   join stop
+     on stop.moddte = shipment_line.moddte
+    and stop.mod_usr_id = shipment_line.mod_usr_id
+  inner
+   join car_move
+     on car_move.car_move_id = stop.car_move_id
+  inner
+   join trlr
+     on trlr.trlr_id = car_move.trlr_id
+  inner
+   join prtmst
+     on prtmst.prtnum = ord_line.prtnum
+  inner
+   join prtdsc
+     on prtdsc.colval = ord_line.prtnum || '|' || ord.client_id || '|' || ord.wh_id
+  where locale_id = @@locale_id
+  group by ord.ordnum,
+        ord_line.prtnum,
+        ord_line.ordlin,
+        ord_line.shpqty,
+        trlr.dispatch_dte,
+        trlr.trlr_num,
+        prtdsc.lngdsc]
+		
+4 ============================================================
+[select case when inventory_view.lodnum is null then 'NA'
+             else inventory_view.lodnum
+        end as lpn,
+        shipment.ship_id as 'envio',
+        ord.wh_id as 'almacen',
+        ord.client_id as 'cliente',
+        ord.ordnum as 'numero_de_orden'
+   from ord
+  inner
+   join ord_line
+     on ord.ordnum = ord_line.ordnum
+    and ord.wh_id = ord_line.wh_id
+    and ord.client_id = ord_line.client_id
+  inner
+   join shipment_line
+     on ord_line.ordnum = shipment_line.ordnum
+    and ord_line.ordlin = shipment_line.ordlin
+    and ord_line.ordsln = shipment_line.ordsln
+    and ord_line.wh_id = shipment_line.wh_id
+    and ord_line.client_id = shipment_line.client_id
+  inner
+   join shipment
+     on shipment_line.wh_id = shipment.wh_id
+    and shipment_line.client_id = shipment.host_client_id
+   left
+   join inventory_view
+     on inventory_view.ship_line_id = shipment_line.ship_line_id
+  where shipment_line.linsts != 'B'
+    and shipment.shpsts != 'B'
+  group by inventory_view.lodnum,
+        shipment.ship_id,
+        ord.wh_id,
+        ord.client_id,
+        ord.ordnum]

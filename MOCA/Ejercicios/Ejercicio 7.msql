@@ -1,0 +1,82 @@
+{
+    publish data
+     where original = 9
+       and consume = 4 &
+    publish data
+     where original = 9
+       and consume = -1 &
+    publish data
+     where original = 9
+       and consume = 5 &
+    publish data
+     where original = 9
+       and consume = 2 &
+    publish data
+     where original = 9
+       and consume = 1 &
+    publish data
+     where original = 9
+       and consume = 1 &
+    publish data
+     where original = 9
+       and consume = 4
+} >> res
+|
+publish data
+/*cantidad de filas*/
+ where len_row = rowcount(@res)
+|
+[[
+    EditableResults rs = new SimpleResults();
+    rs.addColumn("original", MocaType.STRING);
+    rs.addColumn("consume", MocaType.STRING);
+    rs.addColumn("resultado", MocaType.STRING);
+    int contador = 0;
+    int var=0;
+    int aux=0;
+    int temp=0;
+    int n=len_row;
+    int[][] array = new int[n][2];
+    String[] resultado=new String[n];
+    
+    while(res.next()){
+        contador++;
+        rs.addRow();
+
+        /*operaciones*/
+        try {
+            array[contador-1][0]= Integer.parseInt(res.getString("original"));
+            array[contador-1][1]= Integer.parseInt(res.getString("consume"));
+        } catch (NumberFormatException ex) {
+            rs.setStringValue("original",res.getString("original"));
+            rs.setStringValue("consume",res.getString("consume"));
+            rs.setStringValue("resultado",'No ingrese vainas raras');
+            break;
+        }
+        
+        if(contador>1){
+            aux=temp;
+        }else{
+            aux=array[contador-1][0];
+        }
+        temp = aux -  array[contador-1][1];
+        resultado[contador-1]= String.valueOf(temp);
+        
+        if(temp<0){
+            rs.setStringValue("original",String.valueOf(array[contador-1][0]));
+            rs.setStringValue("consume",String.valueOf(array[contador-1][1]));
+            rs.setStringValue("resultado","error");
+            break;
+        }
+        
+        /*Asignando valores*/
+        rs.setStringValue("original",String.valueOf(array[contador-1][0]));
+        rs.setStringValue("consume",String.valueOf(array[contador-1][1]));
+        rs.setStringValue("resultado",String.valueOf(resultado[contador-1]));
+        
+        if(contador>n){
+            break;
+        }
+    }
+    return rs;
+]]

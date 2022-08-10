@@ -1,0 +1,59 @@
+/*
+   linsts != 'B' | shipment_line 
+   shpsts != 'B' | shipment
+   =
+   lodnum | inventory_view
+   ship_id | shipment
+   ship_id | shipment_line
+   Tablas relacionadas
+   ord
+   ord_line
+   shipment_line
+   shipment,
+   Inventory_View=
+   wh_id
+ */
+list tables with column
+ where column = 'lodnum';
+[select *
+   from ord];
+[select top 10 *
+   from invdtl
+  inner
+   join shipment_line
+     on invdtl.ship_line_id = shipment_line.ship_line_id];
+[select case when inventory_view.lodnum is null then 'NA'
+             else inventory_view.lodnum
+        end as lpn,
+        nvl(inventory_view.lodnum, 'NA') x,
+        shipment.ship_id as 'envio',
+        ord.wh_id as 'almacen',
+        ord.client_id as 'cliente',
+        ord.ordnum as 'numero_de_orden'
+   from ord
+  inner
+   join ord_line
+     on ord.ordnum = ord_line.ordnum
+    and ord.wh_id = ord_line.wh_id
+    and ord.client_id = ord_line.client_id
+  inner
+   join shipment_line
+     on ord_line.ordnum = shipment_line.ordnum
+    and ord_line.ordlin = shipment_line.ordlin
+    and ord_line.ordsln = shipment_line.ordsln
+    and ord_line.wh_id = shipment_line.wh_id
+    and ord_line.client_id = shipment_line.client_id
+  inner
+   join shipment
+     on shipment_line.wh_id = shipment.wh_id
+    and shipment_line.client_id = shipment.host_client_id
+   left
+   join  inventory_view
+     on inventory_view.ship_line_id = shipment_line.ship_line_id
+  where shipment_line.linsts != 'B'
+    and shipment.shpsts != 'B'
+  group by inventory_view.lodnum,
+        shipment.ship_id,
+        ord.wh_id,
+        ord.client_id,
+        ord.ordnum]

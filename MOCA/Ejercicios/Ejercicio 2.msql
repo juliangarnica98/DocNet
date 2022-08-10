@@ -1,0 +1,118 @@
+[select rcvlin.trknum,
+        rcvlin.invnum,
+        trlr.dispatch_dte,
+        sum(rcvlin.expqty) as 'Unidades'
+   from rcvlin
+  inner
+   join trlr
+     on rcvlin.client_id = trlr.client_id
+  where trlr.trlr_stat != 'D'
+  group by rcvlin.trknum,
+        rcvlin.invnum,
+        trlr.dispatch_dte];
+[select rcvlin.trknum,
+        rcvlin.invnum,
+        sum(rcvlin.expqty) as 'Unidades',
+        trlr.dispatch_dte
+   from rcvlin
+  inner
+   join trlr
+     on rcvlin.client_id = trlr.client_id
+  where trlr.trlr_stat != 'D'
+  group by rcvlin.trknum,
+        rcvlin.invnum,
+        trlr.dispatch_dte
+ having sum(expqty) > 100
+  order by Unidades DESC]
+|
+[select prtnum
+   from rcvlin
+  where trknum = @trknum
+    and invnum = @invnum] >> res
+|
+convert column results to string
+ where colnam = 'prtnum'
+   and separator = ' | '
+|
+publish data
+ where trknum = @trknum
+   and invnum = @invnum
+   and unidades = @unidades
+   and prtnum = @result_string
+   and dispatch_date = @dispatch_date;
+[select trlr.client_id,
+        trlr.dispatch_dte
+   from trlr
+  inner
+   join rcvlin
+     on rcvlin.client_id = trlr.client_id
+  group by trlr.client_id,
+        trlr.dispatch_dte];
+list tables with column
+ where column = '';
+[select dispatch_dte
+   from trlr];
+[select trlr.client_id,
+        trlr.moddte
+   from trlr
+  group by trlr.client_id,
+        trlr.moddte];
+publish data
+ where fecha1 = '2004-05-20T09:02:15'
+   and fecha2 = '2015-04-01T12:33:07'
+|
+[select trlr_id,
+        carcod,
+        trlr_num,
+        dispatch_dte
+   from trlr
+  where dispatch_dte between @fecha1
+    and @fecha2];
+   
+publish data
+ where fecha1 = '2004-05-20T09:02:15'
+   and fecha2 = '2015-04-01T12:33:07'
+|
+[select rcvlin.trknum,
+        rcvlin.invnum,
+        sum(rcvlin.expqty) as 'unidades',
+        trlr.dispatch_dte as 'despacho'
+   from trlr
+  inner
+   join rcvtrk
+     on rcvtrk.trlr_id = trlr.trlr_id
+  inner
+   join rcvinv
+     on rcvtrk.trknum = rcvinv.trknum
+    and rcvtrk.wh_id = rcvinv.wh_id
+  inner
+   join rcvlin
+     on rcvinv.trknum = rcvlin.trknum
+    and rcvinv.supnum = rcvlin.supnum
+    and rcvinv.invnum = rcvlin.invnum
+    and rcvinv.wh_id = rcvlin.wh_id
+    and rcvinv.client_id = rcvlin.client_id
+  where trlr.trlr_stat = 'D'
+    and dispatch_dte between @fecha1
+    and @fecha2
+  group by rcvlin.trknum,
+        rcvlin.invnum,
+        trlr.dispatch_dte
+ having sum(rcvlin.expqty) > 100
+  order by Unidades DESC]
+|
+[select prtnum
+   from rcvlin
+  where trknum = @trknum
+    and invnum = @invnum] >> res
+|
+convert column results to string
+ where colnam = 'prtnum'
+   and separator = ' | '
+|
+publish data
+ where trknum = @trknum
+   and invnum = @invnum
+   and unidades = @unidades
+   and prtnum = @result_string
+   and dispatch_date = @despacho;

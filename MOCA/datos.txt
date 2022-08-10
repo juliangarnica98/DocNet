@@ -1,0 +1,101 @@
+/*Variables
+   obligatorio -> tabla.campo = @variable
+   opcional -> @+tabla.campo (En este caso la variable se llama igual que el campo)
+   opcional con alias -> @+tabla.campo^variable*/
+
+@ obligatorio
+-- comentarios
+xd^var concatenar una variable alias 
+@+ opcional
+
+
+Iniciar servidor
+cd JDA
+cd Moca2022
+cd Les
+cd data
+env
+
+Services
+Moca server 2022
+
+create
+update -> change
+delete -> remove
+view -> list (mostrar)
+
+create var shipment location 
+change var order line
+
+var (desarrollo)
+usr (usuario)
+
+
+
+move inventory
+where lodnum = "condicion" and dstloc = "condicion"
+
+
+list orders = select * from ord
+
+
+moverse a la carpeta les data.
+
+
+Indique en que pantalla se realiza la creacion de comandos
+Server command Mintanance
+
+Que sintaxis es usada para crear el nombre de los comandos
+Moca <verb> 
+
+
+select tabla1 join tabla2 on tabla1.tabla2
+
+que accion realiza >>
+Traer informacion de una variable -> ingresa los resultados de una consulta en un resultset
+
+
+pra que es usado @
+definir una variable
+
+[[]] esto que es 
+
+[[String variable = x;]]
+sirve para realizar groovy
+
+escribir al menos 3 comandos utiles en Moca y una breve descripccion Ejemplo:
+List table columns
+Ord num: Ordenar numeros
+List tables with column : ordenar por colunmas
+
+
+Niveles que existen en Moca
+trigger
+Mcmd
+usr y var
+
+Escriba los principales operadores y su descripccion
+
+-resta
+*multiplicacion
+/ division
+% modulo
+
+Que contiene un archivo registry
+url
+
+
+Ubicacion dentro de la instancia de los comandos creadas
+LESDIR/src/cmdsrc
+
+
+siguientes ejercicios
+
+Publique el usuario del entorno
+
+publish data
+where usuario = @variable_id
+
+create table
+change register
+Remove register

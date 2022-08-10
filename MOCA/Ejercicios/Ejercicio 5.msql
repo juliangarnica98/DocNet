@@ -1,0 +1,265 @@
+publish data
+ where lodnum_base = 'L0000000HESA'
+   and location = 'CO05'
+   and trndte = to_date('20220316183650', 'YYYYMMDDHH24MISS')
+   and trntyp = 'CO-PACK_CONSUMED'
+   and trntyp_dsc = 'Pallet Consumed'
+   and stock_status = 'Held'
+   and wkonum1 = '3314-DES-0105'
+   and wkorev1 = '3314-DES-6'
+   and prdlin1 = 'LIN01'
+   and clodnum = '' &
+publish data
+ where lodnum_base = 'L0000000HESA'
+   and location = 'CO05'
+   and trndte = to_date('20220316183652', 'YYYYMMDDHH24MISS')
+   and trntyp = 'CO-PACK_CONSUMED'
+   and trntyp_dsc = 'Pallet Consumed'
+   and stock_status = 'Held'
+   and wkonum1 = '3314-DES-0105'
+   and wkorev1 = '3314-DES-6'
+   and prdlin1 = 'LIN01'
+   and clodnum = '' &
+publish data
+ where lodnum_base = 'L0000000HESB'
+   and location = 'CO05'
+   and trndte = to_date('20220316183622', 'YYYYMMDDHH24MISS')
+   and trntyp = 'CO-PACK_CONSUMED'
+   and trntyp_dsc = 'Pallet Consumed'
+   and stock_status = 'Held'
+   and wkonum1 = '3314-DES-0105'
+   and wkorev1 = '3314-DES-6'
+   and prdlin1 = 'LIN01'
+   and clodnum = '' &
+publish data
+ where lodnum_base = ''
+   and location = ''
+   and trndte = null
+   and trntyp = ''
+   and trntyp_dsc = ''
+   and stock_status = ''
+   and wkonum1 = ''
+   and wkorev1 = ''
+   and prdlin1 = ''
+   and clodnum = 'L0000000HESC' &
+publish data
+ where lodnum_base = ''
+   and location = ''
+   and trndte = null
+   and trntyp = ''
+   and trntyp_dsc = ''
+   and stock_status = ''
+   and wkonum1 = ''
+   and wkorev1 = ''
+   and prdlin1 = ''
+   and clodnum = 'L0000000HESD' &
+publish data
+ where lodnum_base = ''
+   and location = ''
+   and trndte = null
+   and trntyp = ''
+   and trntyp_dsc = ''
+   and stock_status = ''
+   and wkonum1 = ''
+   and wkorev1 = ''
+   and prdlin1 = ''
+   and clodnum = 'L0000000HESE';
+[create
+  table vc_ejercicio
+ (
+     location varchar(32),
+     trndte varchar(32),
+     trntyp varchar(32),
+     trntyp_dsc varchar(32),
+     stock_status varchar(32),
+     wkonum1 varchar(32),
+     wkorev1 varchar(32),
+     prdlin1 varchar(32),
+     clodnum varchar(32)
+ )];
+[insert
+   into vc_ejercicio(lodnum_base, location, trndte, trntyp, trntyp_dsc, stock_status, wkonum1, wkorev1, prdlin1, clodnum)
+ values ('L0000000HESA', 'CO05', '20220316183650', 'CO-PACK_CONSUMED', 'Pallet Consumed', 'Held', '3314-DES-0105', '3314-DES-6', 'LIN01', '');
+
+ insert
+   into vc_ejercicio(lodnum_base, location, trndte, trntyp, trntyp_dsc, stock_status, wkonum1, wkorev1, prdlin1, clodnum)
+ values ('L0000000HESA', 'CO05', '20220316183652', 'CO-PACK_CONSUMED', 'Pallet Consumed', 'Held', '3314-DES-0105', '3314-DES-6', 'LIN01', '');
+
+ insert
+   into vc_ejercicio(lodnum_base, location, trndte, trntyp, trntyp_dsc, stock_status, wkonum1, wkorev1, prdlin1, clodnum)
+ values ('L0000000HESB', 'CO05', '20220316183622', 'CO-PACK_CONSUMED', 'Pallet Consumed', 'Held', '3314-DES-0105', '3314-DES-6', 'LIN01', '');
+
+ insert
+   into vc_ejercicio(lodnum_base, location, trndte, trntyp, trntyp_dsc, stock_status, wkonum1, wkorev1, prdlin1, clodnum)
+ values ('', '', '', '', '', '', '', '', '', 'L0000000HESC');
+
+ insert
+   into vc_ejercicio(lodnum_base, location, trndte, trntyp, trntyp_dsc, stock_status, wkonum1, wkorev1, prdlin1, clodnum)
+ values ('', '', '', '', '', '', '', '', '', 'L0000000HESD');
+
+ insert
+   into vc_ejercicio(lodnum_base, location, trndte, trntyp, trntyp_dsc, stock_status, wkonum1, wkorev1, prdlin1, clodnum)
+ values ('', '', '', '', '', '', '', '', '', 'L0000000HESE');];
+[drop
+  table vc_ejercicio];
+[select *
+   from vc_ejercicio];
+[select t1.*,
+        t2.clodnum
+   from (select *,
+                row_number() over(order by trndte) x
+           from vc_ejercicio t1
+          where lodnum_base is not null) t1
+  inner
+   join (select *,
+                row_number() over(order by trndte) x
+           from vc_ejercicio t1
+          where lodnum_base is null) t2
+     on t1.x = t2.x];
+[select clodnum
+   from vc_ejercicio
+  where clodnum is not null]
+|
+publish data
+ where variable = @clodnum
+|
+[select lodnum_base,
+        location,
+        trndte,
+        trntyp,
+        trntyp_dsc,
+        stock_status,
+        wkonum1,
+        wkorev1,
+        prdlin1,
+        clodnum
+   from vc_ejercicio]
+|
+publish data
+ where lodnum_base = @lodnum_base
+   and clodnum = @clodnum;
+[select row_number() over(order by lodnum_base) as item,
+        *
+   from vc_ejercicio]
+|
+if (@item = 4)
+{
+    publish data
+     where item = @item
+       and lodnum_base = @lodnum_base
+       and location = @location
+       and trndte = @trndte
+       and trntyp = @trntyp
+       and trntyp_dsc = @trntyp_dsc
+       and stock_status = @stock_status
+       and wkonum1 = @wkonum1
+       and wkorev1 = @wkorev1
+       and prdlin1 = @prdlin1
+       and clodnum = 'L0000000HESC'
+}
+else if (@item = 5)
+{
+    publish data
+     where item = @item
+       and lodnum_base = @lodnum_base
+       and location = @location
+       and trndte = @trndte
+       and trntyp = @trntyp
+       and trntyp_dsc = @trntyp_dsc
+       and stock_status = @stock_status
+       and wkonum1 = @wkonum1
+       and wkorev1 = @wkorev1
+       and prdlin1 = @prdlin1
+       and clodnum = 'L0000000HESD'
+}
+else if (@item = 6)
+{
+    publish data
+     where item = @item
+       and lodnum_base = @lodnum_base
+       and location = @location
+       and trndte = @trndte
+       and trntyp = @trntyp
+       and trntyp_dsc = @trntyp_dsc
+       and stock_status = @stock_status
+       and wkonum1 = @wkonum1
+       and wkorev1 = @wkorev1
+       and prdlin1 = @prdlin1
+       and clodnum = 'L0000000HESE'
+};
+[select *
+   from job_definition
+  where rownum < 11] >> res
+|
+[[
+        EditableResults rs  = new SimpleResults();
+        rs.addColumn("job_g", MocaType.STRING);
+        rs.addColumn("contador", MocaType.STRING);
+        String job = "";
+int contador = 0;
+while(res.next()){
+contador ++;
+rs.addRow();
+job = res.getString("job_id");
+rs.setStringValue("job_g",job + contador);
+rs.setStringValue("contador",contador+"");
+if(contador > 100){
+break;
+}
+
+}
+return rs;
+]];
+[select *
+   from vc_ejercicio] >> res
+|
+[[
+        EditableResults rs  = new SimpleResults();
+        //rs.addColumn("contador",MocaType.STRING);
+        rs.addColumn("lodnum_base", MocaType.STRING);
+        rs.addColumn("location",MocaType.STRING);
+        rs.addColumn("trndte",MocaType.STRING);
+        rs.addColumn("trntyp",MocaType.STRING);
+        rs.addColumn("trntyp_dsc",MocaType.STRING);
+        rs.addColumn("stock_status",MocaType.STRING);
+        rs.addColumn("wkonum1",MocaType.STRING);
+        rs.addColumn("wkorev1",MocaType.STRING);
+        rs.addColumn("prdlin1",MocaType.STRING);
+        rs.addColumn("clodnum", MocaType.STRING);
+        String var1 = "";
+        String var2 = "";
+int contador = 0;
+int contador2 = 0;
+String[][] array = new String[6][10];
+while(res.next()){
+    contador ++;
+    array[contador-1][0]= res.getString("lodnum_base");
+    array[contador-1][1]= res.getString("location");
+    array[contador-1][2]= res.getString("trndte");
+    array[contador-1][3]= res.getString("trntyp");
+    array[contador-1][4]= res.getString("trntyp_dsc");
+    array[contador-1][5]= res.getString("stock_status");
+    array[contador-1][6]= res.getString("wkonum1");
+    array[contador-1][7]= res.getString("wkorev1");
+    array[contador-1][8]= res.getString("prdlin1");
+    array[contador-1][9]= res.getString("clodnum");
+    if(contador >= 6){
+    break;
+    }
+}
+for (int i=0;i<3;i++){
+    rs.addRow();
+    //rs.setStringValue("contador",i+'');
+    rs.setStringValue("lodnum_base",array[i][0]);
+    rs.setStringValue("location",array[i][1]);
+    rs.setStringValue("trndte",array[i][2]);
+    rs.setStringValue("trntyp",array[i][3]);
+    rs.setStringValue("trntyp_dsc",array[i][4]);
+    rs.setStringValue("stock_status",array[i][5]);
+    rs.setStringValue("wkonum1",array[i][6]);
+    rs.setStringValue("wkorev1",array[i][7]);
+    rs.setStringValue("prdlin1",array[i][8]);
+    rs.setStringValue("clodnum",array[3+i][9]);
+}
+    return rs;
+]];

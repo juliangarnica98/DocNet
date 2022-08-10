@@ -1,0 +1,16 @@
+1. SERVER COMMAND MAINTENANCE
+
+verb var operation
+
+Type: Local syntax
+Local syntax, pegar todo el command
+
+rest_var_restacumulated
+
+2. execute os command where cmd = 'mbuild'
+
+3. reiniciar console Blue Yonder
+
+4. Ctrl+l LexEdit para abrir component LookUp
+escribir nombre del comando
+

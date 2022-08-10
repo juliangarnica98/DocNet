@@ -1,0 +1,27 @@
+[select ROW_NUMBER() OVER(ORDER BY ordnum) as fila,
+        *
+   from ord];
+[select *
+   from ord];
+publish data
+ where fila = 10
+|
+[select top 10 row_number() OVER(order by sum(untqty) DESC) as item,
+        prtnum,
+        sum(untqty) as inventario
+   from invdtl
+  group by prtnum]
+|
+if (@item = @fila)
+{
+    publish data
+     where prtnum = @prtnum
+       and inventario = @inventario
+       and resultado = ' El producto con menos unidades es ' || @prtnum || ' con ' || @inventario || ' unidades'
+}
+else
+{
+    publish data
+     where prtnum = @prtnum
+       and inventario = @inventario
+};

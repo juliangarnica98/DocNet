@@ -1,0 +1,25 @@
+/*Daniel Murillo
+   1 de agosto 2022
+   v 1.01
+   ingresar nombre y edad
+ */
+[insert
+   into ejercicio_integrator(name, age, secuencia)
+ values (@name, @age, @secuencia)];
+[select *
+   from ejercicio_integrator];
+   execute os command
+ where cmd = 'mbuild';
+publish data
+ where name = 'pepe'
+   and age = 33
+|
+[select top 1 *
+   from ejercicio_integrator
+  where name = @name
+    and age = @age
+  order by secuencia DESC]
+|
+publish data
+ where secuencia = @secuencia + 1;
+accomulated var sequence

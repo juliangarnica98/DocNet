@@ -1,0 +1,20 @@
+/*Se coloca el producto para ver unidades*/
+/*Las cantidades es untqty*/
+publish data
+ where var_1 = 'BASKETBALL'
+|
+[select *
+   from inventory_View
+  where prtnum = @var_1];
+
+/*Seleccionar un producto*/
+[select prtnum
+   from shipment_line];
+publish data
+ where var_2 = ''
+|
+[select *
+   from inventory_View
+  where prtnum = @var_2];
+[select *
+   from devmst];

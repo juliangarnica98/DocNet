@@ -1,0 +1,5 @@
+COMPONENTES 
+
+rest_var_restacumulated
+
+resta el residuo continuamente.

@@ -1,0 +1,40 @@
+Integrator, creacion de machines
+
+1. Ingresar a Transaction Explorer
+2. Crear la carpeta System Group
+3. Crear System 
+	System name: nombre_carpeta_sap
+	Enabled: True
+	Commit Context: Same IFDs
+
+	Absent: +
+	No change: *
+4. Crear Event dentro de System
+	event: vc_entrenamiento_data
+	event group: MASTER DATA
+	Persist event data: true
+	Event Arguments:
+		Asignar campos de la tabla
+5. Crear Event Output
+	event ouput: vc_entrenamiento_data_eo
+	EO version: 2022.2
+	Event: vc_entrenamiento_data
+6. Crear EO Segment (Incompleto)
+	EO segment: vc_entrenamiento_data_eo_seg
+	Event ouput: vc_entrenamiento_data_eo 
+	Campo de al lado: 2022.2
+	Retrieve method: SL_DUMMY_RM (si va a recibir datos) o vc_get_method
+	segment fields : insertar los campos a insertar en la tabla
+	
+
+1. System Group
+2. System
+3. Event
+4. Event Output
+5. EO Segment
+SE SALTA IMBOUNT
+6. RESULT IFD.0
+
+
+lOG event
+

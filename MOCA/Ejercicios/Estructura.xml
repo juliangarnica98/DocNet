@@ -1,0 +1,9 @@
+<VC_CREATE_USER>
+    <VC_CREATE_USER_SEG>
+        <nombre>Daniel</nombre>
+        <apellido>Murillo</apellido>
+        <VC_CREATE_ROL_SEG>
+            <rol>SUPER</rol>
+        </VC_CREATE_ROL_SEG>
+    </VC_CREATE_USER_SEG>
+</VC_CREATE_USER>

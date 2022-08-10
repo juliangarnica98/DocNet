@@ -1,0 +1,304 @@
+Para usar SQL
+[select * from tabla]
+list orders
+
+------------------------------------------------------------------------------------------
+1-
+Mostrar los 10 productos con mas cantidades en inventario
+Adicional mostrar un mensaje de "error" que diga: El producto con menos unidades es @prtnum
+
+[select top 10 prtnum,
+        sum(untqty) as inventario,
+        case when sum(untqty) <= 24000 then 'El producto con menos unidades es '
+        end as error
+   from invdtl
+  group by prtnum
+  order by inventario DESC] catch(@?)
+|
+if (@error = 'El producto con menos unidades es ')
+{
+    publish data
+     where prtnum = @prtnum
+       and inventario = @inventario
+       and error = @error || @prtnum
+}
+else
+{
+    publish data
+     where prtnum = @prtnum
+       and inventario = @inventario
+}
+
+[select prtnum
+   from invdtl
+  where untqty = (select min(untqty)
+                    from invdtl)]
+las consultas votan 0 (true), 1 (false)
+
+
+------------------------------------------------------------------------------------------
+2-
+Crear un comando que tenga la siguiente información.
+Mostrar todos los recibos que tengan más de 100 unidades esperadas (expqty),
+ y mostrar en una sola columna los productos separados por pipe ( | )
+Solo mostrar lo que se ha despachado trlr_stat = 'D'
+Adicionalmente mostrar los siguientes campos
+trknum
+invnum
+sum(expqty)
+
+prtnum por lineas
+
+[select tabla1.invnum,
+        tabla1.trknum,
+        tabla1.expqty as unidades
+   from rcvlin tabla1,
+        trlr tabla2
+  where tabla2.trlr_stat = 'D'
+    and tabla1.expqty > 100
+  order by unidades DESC]
+  
+[select *
+   from ord
+  inner
+   join ord_line
+     on ord.ordnum = ord_line.ordnum
+    and ord.wh_id = ord_line.wh_id
+    and ord.client_id = ord_line.client_id]
+  
+  Inner
+  
+  [select *
+   from rcvlin tb1
+  Inner
+   Join trlr tb2
+     On tb1. ]
+
+SELECT OrderID, C.CustomerID, CompanyName, OrderDate FROM 
+Customers C, Orders O
+ WHERE C.CustomerID = O.CustomerID
+
+rcvinv.trknum
+rcvinv.invnum
+rcvlin.expqty
+sum(expqty)
+trlr.trlr_stat
+
+Tablas involucradas
+rcvinv
+rcvlinv
+rcvtrk
+trlr
+
+trknum 
+
+rcvinv
+rcvlin
+rcvtrk
+
+expqty
+
+rcvlin
+
+invnum
+
+rcvinv
+rcvlin
+
+
+
+
+Por ultimo, se deben tener en cuenta los siguientes filtros:
+invnum opcional
+trknum opcional
+trlr_id opcional
+
+
+
+Obligatorio: Fecha despacho (Rango)
+------------------------------------------------------------------------------------------
+3-
+se requiere ver la información que contienen los camiones despachados.
+
+Orden, 
+ordnum .
+Envió .
+Línea de orden
+Producto
+Descripción de producto - 
+cantidad shpqty - shpqty
+# de camion - trlr_num
+Fecha de despacho - dispatch_dte
+
+@@locale_id (uniico item)
+@@usr_id (unico item)
+@@wh_id (unico)
+@wh_id
+inner
+   join prtmst
+     on prtmst
+.colval
+
+a. Además se requiere visualizar un campo que concatene (id_de_camion -orden-producto)
+se debe poder filtrar
+requerido: orden
+opcional: camión, producto
+
+
+
+b. si la cantidad excede las 5 unidades se debe visualizar un campo con valor UP de lo contrario DOWN
+Nota:
+para el punto a y b pueden darle el nombre a la columna
+
+------------------------------------------------------------------------------------------
+
+4-
+Crear un comando para
+Mostrar todas las ordenes que no esten canceladas (linsts != 'B', 
+shpsts != 'B'), lpn,envio
+adicional si tiene inventario asociado mostrarlo, de lo contrario mostrar NA -> Alias que quieran
+Filtros obligatorios: Almacen
+Opcionales: cliente,orden,lpn
+ord
+ord_line
+shipment_line
+shipment,
+Inventory_View
+
+todas tienen wh_id
+shipment_line.lints 
+shipment.shpsts
+
+[select lodnum,
+        ship_id
+   from ord
+  where linsts != 'B'
+    and shpsts != 'B']
+	
+	
+	
+
+Mostrar todas las ordenes que no esten canceladas (linsts != 'B', 
+shpsts != 'B'), lpn (lodnum),envio(ship_id)
+adicional si tiene inventario asociado mostrarlo, de lo contrario
+mostrar NA -> Alias que quieran
+Filtros obligatorios: Almacen (wh_id)
+Opcionales: cliente(client_id),orden(ordnum),lpn(lodnum)
+
+ord
+ord_line
+shipment_line
+shipment,
+Inventory_View (invdtl,invsub,invlod)
+
+
+
+todas tienen wh_id
+
+shipment_line.lints 
+shipment.shpsts
+
+shipment_line.ship_id
+shipment.ship_id
+
+
+filtros opcionales
+client_id
+ordnum
+lodnum
+
+inventory_view.lodnum
+
+Atributos que se comparten
+ship_id
+wh_id
+moddtle
+mod_usr_id
+
+[select top 10 *
+   from shipment table1,
+        shipment_line table2,
+        inventory_view table3
+  where table1.wh_id = table2.wh_id
+    and table1.wh_id = table3.wh_id
+    and table2.wh_id = table3.wh_id
+    and table2.linsts != 'B'
+    and table1.shpsts != 'B']
+	
+	
+ord.wh_id (O)
+ord.client_id
+ord.ordnum
+
+ord_line.wh_id (O)
+ord_line.client_id
+ord_line.ordnum
+
+shipment.wh_id
+
+shipment.ship_id
+Inventory_View.lodnum
+
+[select shipment.ship_id,
+        Inventory_View.lodnum
+   from shipment
+   Join Inventory_View]
+
+shipment.ship_id
+Inventory_View.lodnum
+
+shipment_line.linsts != 'B'
+shipment.shpsts !='B'
+
+
+
+
+[select top 10 *
+   from invdtl
+  order by untqty DESC] catch(@?)
+|
+if (@? != 0)
+{
+    publish data
+     where x = 'El producto con menos unidades es' || @subnum
+}
+else
+{
+    publish data
+     where prtnum = @prtnum
+       and untqty = @untqty
+       and error = ''
+}
+|
+if (@untqty = 4500)
+{
+    publish data
+     where prtnum = @prtnum
+       and error = 'El producto con menos unidades es ' || @prtnum
+}
+
+
+
+
+   
+   
+   
+  [select shipment.ship_id,
+        Inventory_View.lodnum]
+		
+		list tables with column
+ where column = 'lodnum
+ 
+ 
+ 
+ lodnum_base
+ location
+ tmdte
+ tmtyp
+ tmtyp_dscc
+ stock_Status
+ wkonum1
+ wkorev1
+ prdlin1
+ clodnum
+ 
